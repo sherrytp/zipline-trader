@@ -219,9 +219,8 @@ def ignore_pandas_nan_categorical_warning():
         yield
 
 
-_INDEXER_NAMES = [
-    '_' + name for (name, _) in pd.core.indexing.get_indexers_list()
-]
+_INDEXER_NAMES = ['_ix', '_iloc', '_loc', '_at', '_iat']
+    # ['_' + name for (name, _) in pd.core.indexing.get_indexers_list()]
 
 
 def clear_dataframe_indexer_caches(df):
