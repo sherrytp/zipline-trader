@@ -1,3 +1,7 @@
+"""
+Module for building a complete daily dataset from alpaca API.
+written by Dr. Amir Vahid at Eonum Inc (https://github.com/Eeonum) modified from https://github.com/ajjcoppola
+"""
 import collections
 
 import alpaca_trade_api as tradeapi

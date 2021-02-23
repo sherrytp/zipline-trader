@@ -4,6 +4,7 @@ from . import csvdir  # noqa
 from . import polygon_api
 from . import alpaca_api
 from . import alpha_vantage_api
+from . import sharadar   # or check vk643/zipline-live2 github repo for seperate sharadar datasets download
 
 from .core import (
     UnknownBundle,
