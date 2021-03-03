@@ -15,6 +15,7 @@
 import logbook
 
 import pandas as pd
+from trading_calendars import get_calendar
 
 log = logbook.Logger(__name__)
 
@@ -50,3 +51,20 @@ def get_benchmark_returns_from_file(filelike):
                          "2020-01-03 00:00:00+00:00,-0.02\n")
 
     return df['return'].sort_index()
+
+
+def get_benchmark_returns(symbol, start, end):
+    """
+    Get a Series of benchmark returns from Yahoo associated with `symbol`.
+    Default is `SPY`.
+    Parameters
+    ----------
+    symbol : str
+        Benchmark symbol for which we're getting the returns.
+    The data is provided by Yahoo Finance
+    """
+    cal = get_calendar('NYSE')
+    dates = cal.sessions_in_range(start, end)
+    data = pd.DataFrame(0.0, index=dates, columns=['close'])
+    data = data['close']
+    return data.sort_index().iloc[1:]
