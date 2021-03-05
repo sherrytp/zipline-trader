@@ -1,6 +1,7 @@
 Install
 =======
 | Please use python 3.6 and let's avoid unnecessary issues.
+| Current stable version is 1.5.0. please install that and avoid the master branch (requires some maintenance. will be updated once done) 
 | Linux and Windows Installations are automatically tested. Mac OS users might have an issue with Bcolz.
   For now, refer to the original zipline docs if you do. Fixing this issue is in the backlog.
 | If you use Python for anything other than Zipline, I **strongly** recommend
