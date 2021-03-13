@@ -20,7 +20,6 @@ from datetime import date
 
 
 user_home = str(Path.home())
-custom_data_path = join(user_home, '.zipline/custom_data')
 
 CLIENT: tradeapi.REST = None
 NY = "America/New_York"
@@ -327,7 +326,7 @@ if __name__ == '__main__':
 
     cal: TradingCalendar = trading_calendars.get_calendar('NYSE')
     end_date = pd.Timestamp('now', tz='utc').date() - timedelta(days=1)
-    while not cal.is_session(end_date):
+    while not cal.is_session(str(end_date)):
         end_date -= timedelta(days=1)
     end_date = pd.Timestamp(end_date, tz='utc')
 

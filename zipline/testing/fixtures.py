@@ -6,7 +6,7 @@ import warnings
 from logbook import NullHandler, Logger
 import numpy as np
 import pandas as pd
-from pandas.core.common import PerformanceWarning
+from pandas.errors import PerformanceWarning
 from six import with_metaclass, iteritems, itervalues, PY2
 import responses
 from toolz import flip, groupby, merge
@@ -704,8 +704,16 @@ class WithTradingSessions(WithDefaultDateBounds, WithTradingCalendars):
 
         for cal_str in cls.TRADING_CALENDAR_STRS:
             trading_calendar = cls.trading_calendars[cal_str]
+
+            start_date = cls.DATA_MIN_DAY
+            end_date = cls.DATA_MAX_DAY
+            if not start_date.tzinfo:
+                start_date = start_date.tz_localize('utc')
+            if not end_date.tzinfo:
+                end_date = end_date.tz_localize('utc')
+
             sessions = trading_calendar.sessions_in_range(
-                cls.DATA_MIN_DAY, cls.DATA_MAX_DAY)
+                start_date, end_date)
             # Set name for aliasing.
             setattr(cls,
                     '{0}_sessions'.format(cal_str.lower()), sessions)
@@ -1195,6 +1203,11 @@ def _trading_days_for_minute_bars(calendar,
             -1 * lookback_days
         )[0]
 
+    if not first_session.tzinfo:
+        first_session = fist_session.tz_localize('utc')
+    if not end_date.tzinfo:
+        end_date = end_date.tz_localize('utc')
+
     return calendar.sessions_in_range(first_session, end_date)
 
 
@@ -1367,8 +1380,8 @@ class WithEquityMinuteBarData(WithAssetFinder, WithTradingCalendars):
         trading_calendar = cls.trading_calendars[Equity]
         cls.equity_minute_bar_days = _trading_days_for_minute_bars(
             trading_calendar,
-            pd.Timestamp(cls.EQUITY_MINUTE_BAR_START_DATE),
-            pd.Timestamp(cls.EQUITY_MINUTE_BAR_END_DATE),
+            cls.EQUITY_MINUTE_BAR_START_DATE,
+            cls.EQUITY_MINUTE_BAR_END_DATE,
             cls.EQUITY_MINUTE_BAR_LOOKBACK_DAYS
         )
 
@@ -1427,8 +1440,8 @@ class WithFutureMinuteBarData(WithAssetFinder, WithTradingCalendars):
         trading_calendar = get_calendar('us_futures')
         cls.future_minute_bar_days = _trading_days_for_minute_bars(
             trading_calendar,
-            pd.Timestamp(cls.FUTURE_MINUTE_BAR_START_DATE),
-            pd.Timestamp(cls.FUTURE_MINUTE_BAR_END_DATE),
+            cls.FUTURE_MINUTE_BAR_START_DATE,
+            cls.FUTURE_MINUTE_BAR_END_DATE,
             cls.FUTURE_MINUTE_BAR_LOOKBACK_DAYS
         )
 
@@ -1691,6 +1704,7 @@ class WithAdjustmentReader(WithBcolzEquityDailyBarReader):
 
     @classmethod
     def init_class_fixtures(cls):
+
         super(WithAdjustmentReader, cls).init_class_fixtures()
         conn = sqlite3.connect(cls.make_adjustment_db_conn_str())
         # Silence numpy DeprecationWarnings which cause nosetest to fail

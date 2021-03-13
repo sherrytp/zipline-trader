@@ -1,5 +1,13 @@
 Backtesting
 =============
+
+.. raw:: html
+
+   <iframe width="660" height="315" src="https://www.youtube.com/embed/hC8LIHVm88Q"
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+    gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 | Old Zipline users know the command line tool that used to run backtests. e.g:
 .. code-block::
 

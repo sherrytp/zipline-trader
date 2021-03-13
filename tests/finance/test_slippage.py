@@ -20,7 +20,7 @@ from collections import namedtuple
 import datetime
 from math import sqrt
 
-from nose_parameterized import parameterized
+from parameterized import parameterized
 import numpy as np
 import pandas as pd
 import pytz
@@ -71,7 +71,7 @@ class SlippageTestCase(WithCreateBarData,
     ASSET_FINDER_EQUITY_SIDS = (133,)
     ASSET_FINDER_EQUITY_START_DATE = pd.Timestamp('2006-01-05', tz='utc')
     ASSET_FINDER_EQUITY_END_DATE = pd.Timestamp('2006-01-07', tz='utc')
-    minutes = pd.DatetimeIndex(
+    minutes = pd.date_range(
         start=START_DATE,
         end=END_DATE - pd.Timedelta('1 minute'),
         freq='1min'
@@ -578,7 +578,7 @@ class VolumeShareSlippageTestCase(WithCreateBarData,
     ASSET_FINDER_EQUITY_SIDS = (133,)
     ASSET_FINDER_EQUITY_START_DATE = pd.Timestamp('2006-01-05', tz='utc')
     ASSET_FINDER_EQUITY_END_DATE = pd.Timestamp('2006-01-07', tz='utc')
-    minutes = pd.DatetimeIndex(
+    minutes = pd.date_range(
         start=START_DATE,
         end=END_DATE - pd.Timedelta('1 minute'),
         freq='1min'
@@ -743,7 +743,7 @@ class VolatilityVolumeShareTestCase(WithCreateBarData,
                                     WithDataPortal,
                                     ZiplineTestCase):
 
-    ASSET_START_DATE = pd.Timestamp('2006-02-10')
+    ASSET_START_DATE = pd.Timestamp('2006-02-10', tz='utc')
 
     TRADING_CALENDAR_STRS = ('NYSE', 'us_futures')
     TRADING_CALENDAR_PRIMARY_CAL = 'us_futures'
@@ -954,7 +954,7 @@ class OrdersStopTestCase(WithSimParams,
     SIM_PARAMS_DATA_FREQUENCY = 'minute'
     SIM_PARAMS_EMISSION_RATE = 'daily'
     ASSET_FINDER_EQUITY_SIDS = (133,)
-    minutes = pd.DatetimeIndex(
+    minutes = pd.date_range(
         start=START_DATE,
         end=END_DATE - pd.Timedelta('1 minute'),
         freq='1min'

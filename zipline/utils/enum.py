@@ -37,13 +37,11 @@ _inttypes_map = {
         c_ushort
     }
 }
-_inttypes = list(
-    pd.Series(_inttypes_map).reindex(
-        range(max(_inttypes_map.keys())),
-        method='bfill',
-    ),
-)
 
+_inttypes = pd.Series(_inttypes_map).\
+        reindex(range(max(_inttypes_map.keys())+1)).\
+        bfill().\
+        tolist()
 
 def enum(option, *options):
     """

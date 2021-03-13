@@ -23,7 +23,7 @@ from copy import deepcopy
 import logbook
 import toolz
 from logbook import TestHandler, WARNING
-from nose_parameterized import parameterized
+from parameterized import parameterized
 from six import iteritems, itervalues, string_types
 from six.moves import range
 from testfixtures import TempDirectory
@@ -31,7 +31,7 @@ from testfixtures import TempDirectory
 import numpy as np
 import pandas as pd
 import pytz
-from pandas.core.common import PerformanceWarning
+from pandas.errors import PerformanceWarning
 from trading_calendars import get_calendar, register_calendar
 
 import zipline.api
@@ -918,7 +918,7 @@ class TestPositions(zf.WithMakeAlgo, zf.ZiplineTestCase):
             0,
         ]
         for i, expected in enumerate(expected_position_count):
-            self.assertEqual(result.ix[i]['num_positions'], expected)
+            self.assertEqual(result.iloc[i]['num_positions'], expected)
 
     def test_noop_orders(self):
         asset = self.asset_finder.retrieve_asset(1)
@@ -1717,7 +1717,10 @@ def handle_data(context, data):
             stats.transactions = stats.transactions.apply(
                 lambda txns: [toolz.dissoc(txn, 'order_id') for txn in txns]
             )
-        assert_equal(multi_stats, batch_stats)
+
+        assert_equal(
+            multi_stats.reindex(sorted(multi_stats.columns), axis=1),
+            batch_stats.reindex(sorted(batch_stats.columns), axis=1))
 
     def test_batch_market_order_filters_null_orders(self):
         share_counts = [50, 0]
@@ -4306,7 +4309,7 @@ class TestOrderAfterDelist(zf.WithMakeAlgo, zf.ZiplineTestCase):
     # FakeDataPortal with different mock data.
     def init_instance_fixtures(self):
         super(TestOrderAfterDelist, self).init_instance_fixtures()
-        self.data_portal = FakeDataPortal(self.asset_finder)
+        self.data_portal = FakeDataPortal(self.asset_finder, first_trading_day=self.start)
 
     @parameterized.expand([
         ('auto_close_after_end_date', 1),

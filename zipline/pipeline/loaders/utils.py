@@ -177,8 +177,9 @@ def last_in_date_group(df,
 
     """
     idx = [data_query_cutoff_times[data_query_cutoff_times.searchsorted(
-        df[TS_FIELD_NAME].values,
+        pd.DatetimeIndex(df[TS_FIELD_NAME]),
     )]]
+
     if have_sids:
         idx += [SID_FIELD_NAME]
     if extra_groupers is None:
@@ -261,7 +262,8 @@ def ffill_across_cols(df, columns, name_map):
             # can't convert NaNs for those types.
             df[column_name] = df[
                 column_name
-            ].fillna(column.missing_value).astype(column.dtype)
+            ].fillna(column.missing_value)
+            #].fillna(column.missing_value).astype(column.dtype)
 
 
 def shift_dates(dates, start_date, end_date, shift):

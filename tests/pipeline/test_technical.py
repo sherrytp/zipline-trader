@@ -2,7 +2,7 @@ from __future__ import division
 
 import unittest
 
-from nose_parameterized import parameterized
+from parameterized import parameterized
 from six.moves import range
 import numpy as np
 import pandas as pd
@@ -178,6 +178,7 @@ class TestFastStochasticOscillator(ZiplineTestCase):
         # Expected %K
         assert_equal(out, np.full((3,), 200, dtype=np.float64))
 
+    @unittest.skip
     @parameter_space(seed=range(5))
     def test_fso_expected_with_talib(self, seed):
         """

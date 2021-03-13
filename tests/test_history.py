@@ -15,7 +15,7 @@
 from collections import OrderedDict
 from textwrap import dedent
 
-from nose_parameterized import parameterized
+from parameterized import parameterized
 import numpy as np
 from numpy import nan
 import pandas as pd
@@ -1772,7 +1772,7 @@ class DailyEquityHistoryTestCase(WithHistory, zf.ZiplineTestCase):
         # 10 days
 
         # get the first 30 days of 2015
-        jan5 = pd.Timestamp('2015-01-05')
+        jan5 = pd.Timestamp('2015-01-05', tz='utc')
 
         # Regardless of the calendar used for this test, equities will
         # only have data on NYSE sessions.

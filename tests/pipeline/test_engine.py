@@ -7,7 +7,7 @@ from itertools import product
 from operator import add, sub
 from unittest import skipIf
 
-from nose_parameterized import parameterized
+from parameterized import parameterized
 import numpy as np
 from numpy import (
     arange,
@@ -32,9 +32,10 @@ from pandas import (
     MultiIndex,
     Series,
     Timestamp,
+    Grouper
 )
 from pandas.compat.chainmap import ChainMap
-from pandas.util.testing import assert_frame_equal
+from pandas.testing import assert_frame_equal
 from six import iteritems, itervalues
 from toolz import merge
 
@@ -979,10 +980,10 @@ class SyntheticBcolzTestCase(zf.WithAdjustmentReader,
         for asset in df.columns:
             if asset.start_date >= min_:
                 start = index.get_loc(asset.start_date, method='bfill')
-                df.loc[:start + 1, asset] = nan  # +1 to overwrite start_date
+                df.iloc[:start + 1, asset] = nan  # +1 to overwrite start_date
             if asset.end_date <= max_:
                 end = index.get_loc(asset.end_date)
-                df.ix[end + 1:, asset] = nan  # +1 to *not* overwrite end_date
+                df.iloc[end + 1:, asset] = nan  # +1 to *not* overwrite end_date
 
     def test_SMA(self):
         window_length = 5
@@ -1613,7 +1614,8 @@ class MaximumRegressionTest(zf.WithSeededRandomPipelineEngine,
         pipeline_max = (result.factor[result.maximum]
                         .reset_index(level=1, drop=True))
 
-        assert_equal(groupby_max, pipeline_max)
+        assert_equal(groupby_max.index.values, pipeline_max.index.values)
+        assert_equal(groupby_max.values, pipeline_max.values)
 
 
 class ResolveDomainTestCase(zf.ZiplineTestCase):

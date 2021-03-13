@@ -13,6 +13,18 @@ Research & backtesting in the Notebook environment
 
     jupyter notebook
 
+| You might need to add the jupyter kernel to be able to work with your virtual environment.
+| This should get it working, and search online if you face issue:
+
+.. code-block:: sh
+
+    pip install ipykernel
+    python -m ipykernel install --user --name zipline-trader
+
+.. raw:: html
+
+    <iframe width="660" height="315" src="https://www.youtube.com/embed/mPgQvEVAoOA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Working With The Research Environment
 -----------------------------------------
 | This was one of Quantopian's strengths and now you could run it locally too.
@@ -34,12 +46,20 @@ Loading Your Data Bundle
 
 .. _`Jupyter.org` : https://jupyter.org/install
 
+.. raw:: html
+
+    <iframe width="660" height="315" src="https://www.youtube.com/embed/AYLUDCBmqB4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Simple Pipeline
 --------------------------
 | You can work with pipeline just as it was on Quantopian, and in the following example
   you could see hwo to create a simple pipeline and get the data:  `Simple Pipeline`_.
 
 .. _Simple Pipeline: notebooks/SimplePipeline.ipynb
+
+.. raw:: html
+
+    <iframe width="660" height="315" src="https://www.youtube.com/embed/BIIHtP0m5xk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 Factors and Alphalens
@@ -62,6 +82,9 @@ Sector Classifier
 
 .. _Alphalens Example: notebooks/Alphalens.ipynb
 
+.. raw:: html
+
+    <iframe width="660" height="315" src="https://www.youtube.com/embed/8P34shf0dqY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Run and analyze a backtest
 --------------------------
@@ -72,6 +95,9 @@ Run and analyze a backtest
 
 .. _Bactesting: notebooks/backtest.ipynb
 
+.. raw:: html
+
+    <iframe width="660" height="315" src="https://www.youtube.com/embed/BIIHtP0m5xk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 .. _`pyfolio` : https://github.com/quantopian/pyfolio
 .. _`Alphalens` : https://github.com/quantopian/alphalens

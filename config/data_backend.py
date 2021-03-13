@@ -9,7 +9,7 @@ if CONFIG_PATH:
 
 
 def db_backend_configured():
-    if CONFIG_PATH:
+    if CONFIG_PATH and ZIPLINE_CONFIG.get("backend"):
         return ZIPLINE_CONFIG["backend"].get("type", False)
     else:
         return os.environ.get('ZIPLINE_DATA_BACKEND')
@@ -17,7 +17,10 @@ def db_backend_configured():
 
 class PostgresDB:
     if CONFIG_PATH:
-        pg = ZIPLINE_CONFIG["backend"]["postgres"]
+        if ZIPLINE_CONFIG.get("backend"):
+            pg = ZIPLINE_CONFIG["backend"]["postgres"]
+        else:
+            pg = None
 
     @property
     def host(self):

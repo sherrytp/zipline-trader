@@ -741,8 +741,8 @@ class PSQLDailyBarWriter(object):
         """
         first_day = edge_days['first_day'][0]
         last_day = edge_days['last_day'][0]
-        before_slice = data[data.index < first_day]
-        after_slice = data[data.index > last_day]
+        before_slice = data[data.index.tz_convert(None) < first_day]
+        after_slice = data[data.index.tz_convert(None) > last_day]
         # check if before-slice and after-slice are aligned with data in db
         # e.g. don't allow gaps in terms of sessions. should be exactly two
         # sessions (sessions on the edge of the data and the slice)

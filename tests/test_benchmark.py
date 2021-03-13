@@ -15,7 +15,7 @@
 import logbook
 import numpy as np
 import pandas as pd
-from pandas.util.testing import assert_series_equal
+from pandas.testing import assert_series_equal
 
 from zipline.data.data_portal import DataPortal
 from zipline.errors import (
@@ -95,6 +95,7 @@ class TestBenchmark(WithDataPortal, WithSimParams, WithTradingCalendars,
         declared_date = cls.sim_params.sessions[45]
         ex_date = cls.sim_params.sessions[50]
         record_date = pay_date = cls.sim_params.sessions[55]
+
         return pd.DataFrame({
             'sid': np.array([4], dtype=np.uint32),
             'payment_sid': np.array([5], dtype=np.uint32),
@@ -224,7 +225,6 @@ class TestBenchmark(WithDataPortal, WithSimParams, WithTradingCalendars,
     def test_no_stock_dividends_allowed(self):
         # try to use sid(4) as benchmark, should blow up due to the presence
         # of a stock dividend
-
         with self.assertRaises(InvalidBenchmarkAsset) as exc:
             BenchmarkSource(
                 self.asset_finder.retrieve_asset(4),

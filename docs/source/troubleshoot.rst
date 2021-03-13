@@ -19,13 +19,13 @@ Right Way to Ingest Data
 
 | I changed the way we ingest new data bundles. please refer to the `Alpaca Data Bundle`_ and read iut again.
 
-Alpaca.yaml file issues
+zipline-trader.yaml file issues
 )))))))))))))))))))))))))))))))
 
 | When using the Alpaca bundle, you must pass credentials to the Alpaca servers. It can't be avoided.
 | The easiest way to do this is by using a local file. The format is not important, I chose ``yaml``. It's simple.
 | Make sure you put the alpaca credentials in the right place
-| First make sure the name of the file is ``alpaca.yaml``. (avoid mistakes like using ``.yml`` postfix)
+| First make sure the name of the file is ``zipline-trader.yaml``. (avoid mistakes like using ``.yml`` postfix)
 | Put it in the right location - your root **python** folder. not inside the zipline-trader folder.
 
 

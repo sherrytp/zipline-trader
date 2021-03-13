@@ -50,8 +50,8 @@ def get_pricing(data_portal, trading_calendar, assets, start_date, end_date, fie
     # indicate that a CustomBusinessDay DateOffset is used
 
     global END_DT
-    END_DT = pd.Timestamp(end_date, tz='UTC', freq='C')
-    start_dt = pd.Timestamp(start_date, tz='UTC', freq='C')
+    END_DT = end_date
+    start_dt = start_date
 
     # Get the locations of the start and end dates
     end_loc = trading_calendar.closes.index.get_loc(END_DT)

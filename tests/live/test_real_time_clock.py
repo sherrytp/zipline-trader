@@ -25,11 +25,11 @@ class TestRealtimeClock(TestCase):
         cls.nyse_calendar = get_calendar("NYSE")
 
         cls.sessions = cls.nyse_calendar.sessions_in_range(
-            pd.Timestamp("2017-04-20"),
-            pd.Timestamp("2017-04-20")
+            pd.Timestamp("2017-04-20", tz='utc'),
+            pd.Timestamp("2017-04-20", tz='utc')
         )
 
-        trading_o_and_c = cls.nyse_calendar.schedule.ix[cls.sessions]
+        trading_o_and_c = cls.nyse_calendar.schedule.loc[cls.sessions]
         cls.opens = trading_o_and_c['market_open']
         cls.closes = trading_o_and_c['market_close']
 

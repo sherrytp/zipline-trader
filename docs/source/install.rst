@@ -1,26 +1,60 @@
 Install
 =======
-| Please use python 3.6 and let's avoid unnecessary issues.
-| Current stable version is 1.5.0. please install that and avoid the master branch (requires some maintenance. will be updated once done) 
-| Linux and Windows Installations are automatically tested. Mac OS users might have an issue with Bcolz.
-  For now, refer to the original zipline docs if you do. Fixing this issue is in the backlog.
+| Installation for this project is somewhat complicated, so try to follow the recommended details to achieve the easiest installation process.
+
+
+| Operating System:
+-----------------------
+
+| * Windows and Linux are much easier to complete this process on
+| * Mac OS is more problematic, yet possible and many users have completed this process successfully.
+| * If you still have issues, consider using docker. dockerfiles are provided.
+
+
+| Python Version:
+-------------------------
+
+
+| * Stable version for this project is 3.6
+| * Starting on v1.6.0 python 3.7 is also supported, but it's not stable yet. So difficulties may occur. Your best best is using 3.6.
+|
+| Linux and Windows Installations are automatically tested using github actions. Mac OS users might have an issue with Bcolz.
+|  Users have found that the easiest way to get Bcolz installed is using conda like so:
+
+  .. code-block:: bash
+
+     conda install -c conda-forge bcolz
+
 | If you use Python for anything other than Zipline, I **strongly** recommend
-  that you install in a `virtualenv
-<https://virtualenv.readthedocs.org/en/latest>`_.
+  that you install in a `virtualenv <https://virtualenv.readthedocs.org/en/latest>`_.
+
+| When using postgres, some users had difficulties installing ``psyccopg2``. A workaround is installing it manually prior to zt
+
+.. code-block:: bash
+
+    conda install -c conda-forge psycopg2=2.8.6
 
 The `Hitchhiker's Guide to Python`_ provides an `excellent tutorial on virtualenv
 <https://docs.python-guide.org/en/latest/dev/virtualenvs/>`_.
 
+Installation Tutorial
+------------------------
 
-For now I support only installation through github. You could do that in one of these ways:
+.. raw:: html
+
+    <iframe width="660" height="315" src="https://www.youtube.com/embed/gsUnCjl5mrg" frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+
 
 Installing with git clone
 --------------------------
+Installing the cutting edge version, directly from the master branch. Just remember that documentation is not always up to date with latest and greatest.
+Using the Master branch install is for the more advanced users.
  * git clone https://github.com/shlomikushchi/zipline-trader.git
  * <create/activate a virtual env> - optional but recommended
+ * python -m pip install --upgrade pip
  * pip install -e .
-
-The last step will install this project from source, giving you the ability to debug zipline-trader's code.
 
 Installing using pip directly from github
 ----------------------------------------------
@@ -28,23 +62,27 @@ You can install it with ability to debug it like this:
 
 .. code-block:: bash
 
+    python -m pip install --upgrade pip
     pip install -e git://github.com/shlomikushchi/zipline-trader.git#egg=zipline-trader
 
-To install a specific version, you could do this (installing version 1.5.0):
+To install a specific version, you could do this (installing version 1.6.0):
 
 .. code-block:: bash
 
-    pip install -e git://github.com/shlomikushchi/zipline-trader.git@1.5.0#egg=zipline-trader
+    python -m pip install --upgrade pip
+    pip install -e git://github.com/shlomikushchi/zipline-trader.git@1.6.0#egg=zipline-trader
 
-Installing from pypi (coming soon)
------------------------------------
-The most known way of installing would be installing from pypi:
 
-.. code-block:: bash
+The last step will install this project from source, giving you the ability to debug zipline-trader's code.
 
-    pip install zipline-trader
+Installing from pypi
+---------------------
+The stable version is available on pypi (currently 1.6.0).
 
-* Installing using Anaconda (Probably supported in the future)
+
+Installing from Anaconda
+---------------------------
+* Installing using Anaconda is not supported.
 
 
 Notes
@@ -117,3 +155,4 @@ following brew packages:
 .. _`Arch Linux` : https://www.archlinux.org/
 .. _`Hitchhiker's Guide to Python` : http://docs.python-guide.org/en/latest/
 .. _`Homebrew` : http://brew.sh
+

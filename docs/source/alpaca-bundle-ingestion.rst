@@ -1,7 +1,8 @@
-Alpaca Data Bundle
+Data Bundles
 =====================
 
-| Out of the box, I support Alpaca as a data source for data ingestion.
+| Out of the box, we support Alpaca and alpha vantage as a data source for data ingestion.
+| Let's take a look at the alpaca data bundle. The process for alpha-vantage is similar.
 | If you haven't created an account, start with that: `Alpaca Signup`_.
 | Why? You could get price data for free using the Alpaca data API. Free data is hard to get.
 | Any other vendor could be added and you are not obligated to use that.
@@ -20,18 +21,7 @@ How To Use It
 | To ingest daily data bundle using the alpaca api, you need to follow these steps:
 * The bundle is defined in this file: ``zipline/data/bundles/alpaca_api.py`` and you will execute it to ingest.
 * There is a method called ``initialize_client()``, it relies on the fact that you define your
-  alpaca credentials in a file called ``alpaca.yaml`` in your root directory.
-
-  | A root directory is defined as the directory in which you run your python scripts from.
-  | It should look like this:
-
-  .. code-block:: yaml
-
-    key_id: "<YOUR-KEY>"
-    secret: "<YOUR-SECRET>"
-    base_url: https://paper-api.alpaca.markets
-    universe: SP500
-  ..
+  alpaca credentials in a file called ``zipline-trader.yaml`` as described in the configuration file section.
 
 * Selecting your universe - which means: what stocks should be included in the ingested DB. The smaller the universe,
   the faster the ingestion is. Selecting the universe is completely up to you, but I do suggest to start small when
@@ -46,15 +36,16 @@ How To Use It
         NASDAQ100 = "NASDAQ 100"
   ..
 
-* Alternatively you could specify a custom asset list inside the ``alpaca.yaml`` file if, for instance you want to ingest a small number of assets.
+* Alternatively you could specify a custom asset list inside the ``zipline-trader.yaml`` file if, for instance you want to ingest a small number of assets.
   You do this
 
   .. code-block:: yaml
 
-    key_id: "<YOUR-KEY>"
-    secret: "<YOUR-SECRET>"
-    base_url: https://paper-api.alpaca.markets
-    custom_asset_list: AAPL, TSLA, GOOG
+    alpaca:
+      key_id: "<YOUR-KEY>"
+      secret: "<YOUR-SECRET>"
+      base_url: https://paper-api.alpaca.markets
+      custom_asset_list: AAPL, TSLA, GOOG
   ..
 
   Please note that:
@@ -106,5 +97,14 @@ Notes
 * You are ready to research, backtest or paper trade using the pipeline functionality.
 * You should repeat this process daily since every day you will have new price data.
 * This data doesn't include Fundamental data, only price data so we'll need to handle it separately.
+
+Tutorial Video
+----------------
+
+.. raw:: html
+
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/xZRbaf0641U"
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+    gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 .. _`Alpaca Signup` : https://app.alpaca.markets/signup

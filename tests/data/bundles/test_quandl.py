@@ -84,10 +84,11 @@ class QuandlBundleTestCase(WithResponses,
 
         def expected_dividend_adjustment(idx, symbol):
             sid = sids[symbol]
+
             return (
                 1 -
-                all_.ix[idx, ('ex_dividend', sid)] /
-                all_.ix[idx - 1, ('close', sid)]
+                all_.iloc[idx]['ex_dividend'].loc[sid] /
+                all_.iloc[idx - 1]['close'].loc[sid]
             )
 
         adjustments = [

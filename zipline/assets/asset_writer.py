@@ -290,6 +290,10 @@ def _check_symbol_mappings(df, exchanges, asset_exchange):
         Raised when there are ambiguous symbol mappings.
     """
     mappings = df.set_index('sid')[list(mapping_columns)].copy()
+
+    if not exchanges.empty and not exchanges.index.name == 'exchange':
+        exchanges.index = exchanges['exchange']
+
     mappings['country_code'] = exchanges['country_code'][
         asset_exchange.loc[df['sid']]
     ].values

@@ -580,7 +580,6 @@ def _make_bundle_core():
         """
         if timestamp is None:
             timestamp = pd.Timestamp.utcnow()
-        timestr = most_recent_data(name, timestamp, environ=environ)
 
         db_path_external = external_db_path(name, environ)
         if db_path_external:
@@ -591,6 +590,7 @@ def _make_bundle_core():
             daily_bar_reader = PSQLDailyBarReader(db_path_external)
             minute_bar_reader = None
         else:
+            timestr = most_recent_data(name, timestamp, environ=environ)
             assets_db_path = asset_db_path(name, timestr, environ=environ)
             adjustments_db_path = adjustment_db_path(name, timestr, environ=environ)
             daily_bar_reader = BcolzDailyBarReader(daily_equity_path(name, timestr, environ=environ))

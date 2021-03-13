@@ -80,7 +80,7 @@ def _calc_minute_index(market_opens, minutes_per_day):
         start_ix = minutes_per_day * i
         end_ix = start_ix + minutes_per_day
         minutes[start_ix:end_ix] = minute_values
-    return pd.to_datetime(minutes, utc=True, box=True)
+    return pd.to_datetime(minutes, utc=True)
 
 
 def _sid_subdir_path(sid):
@@ -797,7 +797,9 @@ class BcolzMinuteBarWriter(object):
 
         all_minutes = self._minute_index
         # Get the latest minute we wish to write to the ctable
-        last_minute_to_write = pd.Timestamp(dts[-1], tz='UTC')
+        last_minute_to_write = pd.Timestamp(dts[-1])
+        if not last_minute_to_write.tzname():
+            last_minute_to_write = last_minute_to_write.tz_localize('utc')
 
         # In the event that we've already written some minutely data to the
         # ctable, guard against overwriting that data.
@@ -1358,7 +1360,7 @@ class H5MinuteBarUpdateWriter(object):
         with HDFStore(self._path, 'w',
                       complevel=self._complevel, complib=self._complib) \
                 as store:
-            panel = pd.Panel.from_dict(dict(frames))
+            panel = pd.concat(dict(frames), axis=1)
             panel.to_hdf(store, 'updates')
         with tables.open_file(self._path, mode='r+') as h5file:
             h5file.set_node_attr('/', 'version', 0)
@@ -1412,5 +1414,8 @@ class H5MinuteBarUpdateReader(MinuteBarUpdateReader):
             )
 
     def read(self, dts, sids):
-        panel = self._panel[sids, dts, :]
-        return panel.iteritems()
+        result = []
+        for sid in sids:
+            result.append((sid, self._panel[sid].loc[dts]))
+
+        return iter(result)

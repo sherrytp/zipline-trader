@@ -567,7 +567,7 @@ cdef arrays_from_rows(DatetimeIndex_t dates,
     # We use searchsorted right here to be exclusive on the data query time.
     # This means that if a data_query_time = 8:45, and a timestamp is exactly
     # 8:45, we would mark that the data point became available the next day.
-    cdef np.ndarray[np.int64_t] ts_ixs = data_query_cutoff_times.searchsorted(
+    cdef np.ndarray[np.int64_t] ts_ixs = data_query_cutoff_times.tz_convert(None).searchsorted(
         all_rows[TS_FIELD_NAME].values,
         'right',
     )
@@ -575,7 +575,7 @@ cdef arrays_from_rows(DatetimeIndex_t dates,
     # We use searchsorted right here to align the asof_dates with what pipeline
     # expects. In a CustomFactor, when today = t_1, the last row of the input
     # array should be data whose asof_date is t_0.
-    cdef np.ndarray[np.int64_t] asof_ixs = dates.searchsorted(
+    cdef np.ndarray[np.int64_t] asof_ixs = dates.tz_convert(None).searchsorted(
         all_rows[AD_FIELD_NAME].values,
         'right',
     )

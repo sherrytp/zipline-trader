@@ -17,9 +17,11 @@ multipledispatch>=0.6.0
 toolz>=0.8.2
 
 # Scientific Libraries
-numpy>=1.11.3
-pandas>=0.18.1,<=0.22
-pandas-datareader>=0.2.1,<0.9.0
+numpy
+pandas
+
+
+pandas-datareader>=0.9.0
 scipy>=0.17.1
 # Needed for parts of pandas.stats
 patsy>=0.4.0
@@ -58,7 +60,7 @@ bottleneck>=1.0.0
 # Graph algorithms used by zipline.pipeline
 networkx>=1.9.1,<2.0
 # NumericalExpression pipeline terms.
-numexpr>=2.6.1
+numexpr==2.7.1
 
 # Currency Codes
 iso4217>=1.6.20180829
@@ -69,7 +71,7 @@ PyYAML==5.3.1
 IbPy2==0.8.0
 polling==0.3.1
 # try using exact version
-bcolz==1.2.1
+# bcolz==1.2.1
 # v 3.0+ leads to: ERROR: Could not build wheels for h5py which use PEP 517 and cannot be installed directly. specify
 # exact version
 h5py==2.10.0

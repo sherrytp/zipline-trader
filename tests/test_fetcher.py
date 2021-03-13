@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from nose_parameterized import parameterized
+from parameterized import parameterized
 
 import pandas as pd
 import numpy as np
@@ -120,6 +120,7 @@ class FetcherTestCase(WithResponses,
             data_portal=FetcherDataPortal(
                 self.asset_finder,
                 self.trading_calendar,
+                self.DATA_PORTAL_FIRST_TRADING_DAY
             ),
         )
         results = test_algo.run()
@@ -378,7 +379,7 @@ def handle_data(context, data):
         """)
 
             np.testing.assert_array_equal([24] * 251, results["aapl"])
-            self.assertEqual(337, results["palladium"].iloc[-1])
+            self.assertEqual('337.0', results["palladium"].iloc[-1])
 
             expected = {
                 'allow_redirects': False,

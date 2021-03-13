@@ -574,7 +574,8 @@ class DataPortalTestBase(WithDataPortal,
             dtype=float64_dtype,
         )
 
-        assert_equal(result, expected_result)
+        assert_equal(result.index, expected_result.index)
+        assert_equal(result.values, expected_result.values)
 
 
 class TestDataPortal(DataPortalTestBase,

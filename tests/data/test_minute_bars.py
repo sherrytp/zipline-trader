@@ -250,6 +250,7 @@ class BcolzMinuteBarTestCase(WithTradingCalendars,
 
         self.assertEquals(50.0, volume_price)
 
+
         open_price = self.reader.get_value(sid, minute_1, 'open')
 
         self.assertEquals(11.0, open_price)
@@ -271,7 +272,7 @@ class BcolzMinuteBarTestCase(WithTradingCalendars,
         self.assertEquals(51.0, volume_price)
 
     def test_write_on_second_day(self):
-        second_day = self.test_calendar_start + 1
+        second_day = self.test_calendar_start + Timedelta(days=1)
         minute = self.market_opens[second_day]
         sid = 1
         data = DataFrame(
@@ -343,8 +344,8 @@ class BcolzMinuteBarTestCase(WithTradingCalendars,
 
         tds = self.market_opens.index
         days = tds[tds.slice_indexer(
-            start=self.test_calendar_start + 1,
-            end=self.test_calendar_start + 3
+            start=self.test_calendar_start + Timedelta(days=1),
+            end=self.test_calendar_start + Timedelta(days=3)
         )]
         minutes = DatetimeIndex([
             self.market_opens[days[0]] + timedelta(minutes=60),
@@ -1039,8 +1040,8 @@ class BcolzMinuteBarTestCase(WithTradingCalendars,
 
         tds = self.market_opens.index
         days = tds[tds.slice_indexer(
-            start=self.test_calendar_start + 1,
-            end=self.test_calendar_start + 3
+            start=self.test_calendar_start + Timedelta(days=1),
+            end=self.test_calendar_start + Timedelta(days=3)
         )]
         minutes = DatetimeIndex([
             self.market_opens[days[0]] + timedelta(minutes=60),
@@ -1100,8 +1101,8 @@ class BcolzMinuteBarTestCase(WithTradingCalendars,
 
         tds = self.market_opens.index
         days = tds[tds.slice_indexer(
-            start=self.test_calendar_start + 1,
-            end=self.test_calendar_start + 3
+            start=self.test_calendar_start + Timedelta(days=1),
+            end=self.test_calendar_start + Timedelta(days=3)
         )]
         minutes = DatetimeIndex([
             self.market_opens[days[0]] + timedelta(minutes=60),
@@ -1192,7 +1193,7 @@ class BcolzMinuteBarTestCase(WithTradingCalendars,
         asset = self.asset_finder.retrieve_asset(sid)
         last_traded_dt = self.reader.get_last_traded_dt(asset, minute)
 
-        self.assertEquals(last_traded_dt, before_early_close,
+        self.assertEquals(last_traded_dt, before_early_close.tz_localize('utc'),
                           "The last traded dt should be before the early "
                           "close, even when data is written between the early "
                           "close and the next open.")

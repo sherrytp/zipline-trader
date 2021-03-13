@@ -213,8 +213,8 @@ class dataframe_cache(MutableMapping):
         self.clean_on_failure = clean_on_failure
 
         if serialization == 'msgpack':
-            self.serialize = pd.DataFrame.to_msgpack
-            self.deserialize = pd.read_msgpack
+            self.serialize = self._serialize_msgpack
+            self.deserialize = self._read_msgpack
             self._protocol = None
         else:
             s = serialization.split(':', 1)
@@ -231,6 +231,13 @@ class dataframe_cache(MutableMapping):
             )
 
         ensure_directory(self.path)
+
+    def _read_msgpack(self):
+        pass
+
+    def _serialize_msgpack(self, df, path):
+        print('serialize msgpack')
+        exit()
 
     def _serialize_pickle(self, df, path):
         with open(path, 'wb') as f:

@@ -20,14 +20,15 @@ Important notes before we start
   user your own.
 | You need to have some understanding on how a zipline algo is used. (`Beginner Tutorial`_)
 | You need to set the ``ZIPLINE_ROOT`` env variable to point to your ingested data bundle.
-| You need to store the alpaca credentials in a file called ``alpaca.yaml`` in your root directory.
+| You need to store the alpaca credentials in a file called ``zipline-trader.yaml`` in your root directory.
   it should look like this:
 
   .. code-block:: yaml
 
-    key_id: "<YOUR-KEY>"
-    secret: "<YOUR-SECRET>"
-    base_url: https://paper-api.alpaca.markets
+    alpaca:
+      key_id: "<YOUR-KEY>"
+      secret: "<YOUR-SECRET>"
+      base_url: https://paper-api.alpaca.markets
   ..
 
 Algo Template
@@ -76,11 +77,11 @@ Algo Template
         bundle_name = 'alpaca_api'
         bundle_data = bundles.load(bundle_name)
 
-        with open("alpaca.yaml", mode='r') as f:
+        with open("zipline-trader.yaml", mode='r') as f:
             o = yaml.safe_load(f)
-            os.environ["APCA_API_KEY_ID"] = o["key_id"]
-            os.environ["APCA_API_SECRET_KEY"] = o["secret"]
-            os.environ["APCA_API_BASE_URL"] = o["base_url"]
+            os.environ["APCA_API_KEY_ID"] = o["alpaca"]["key_id"]
+            os.environ["APCA_API_SECRET_KEY"] = o["alpaca"]["secret"]
+            os.environ["APCA_API_BASE_URL"] = o["alpaca"]["base_url"]
         broker = ALPACABroker()
 
         # Set the trading calendar

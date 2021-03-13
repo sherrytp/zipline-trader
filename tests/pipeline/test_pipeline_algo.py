@@ -8,7 +8,7 @@ from os.path import (
     realpath,
 )
 
-from nose_parameterized import parameterized
+from parameterized import parameterized
 import numpy as np
 from numpy import (
     array,
@@ -194,9 +194,10 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
 
         # View of the data on/after the split.
         self.adj_closes = adj_closes = self.closes.copy()
-        adj_closes.ix[:self.split_date, self.split_asset] *= self.split_ratio
         self.adj_volumes = adj_volumes = self.volumes.copy()
-        adj_volumes.ix[:self.split_date, self.split_asset] *= self.split_ratio
+
+        adj_closes.loc[:self.split_date, int(self.split_asset)] *= self.split_ratio
+        adj_volumes.loc[:self.split_date, int(self.split_asset)] *= self.split_ratio
 
         self.pipeline_close_loader = DataFrameLoader(
             column=USEquityPricing.close,
@@ -215,14 +216,14 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
             lookup = self.closes
         else:
             lookup = self.adj_closes
-        return lookup.loc[date, asset]
+        return lookup.loc[date, int(asset)]
 
     def expected_volume(self, date, asset):
         if date < self.split_date:
             lookup = self.volumes
         else:
             lookup = self.adj_volumes
-        return lookup.loc[date, asset]
+        return lookup.loc[date, int(asset)]
 
     def exists(self, date, asset):
         return asset.start_date <= date <= asset.end_date
@@ -530,9 +531,10 @@ class PipelineAlgorithmTestCase(WithMakeAlgo,
         # 9 get divided by the split ratio, and volumes get multiplied by the
         # split ratio.
         adj = {k: v.copy() for k, v in iteritems(self.raw_data)}
+
         for column in 'open', 'high', 'low', 'close':
-            adj[AAPL].ix[:split_loc, column] /= split_ratio
-        adj[AAPL].ix[:split_loc, 'volume'] *= split_ratio
+            adj[AAPL].loc[:split_date - self.trading_calendar.day, column] /= split_ratio
+        adj[AAPL].loc[:split_date - self.trading_calendar.day, 'volume'] *= split_ratio
 
         # length -> asset -> expected vwap
         vwaps = {length: {} for length in window_lengths}

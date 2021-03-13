@@ -219,9 +219,10 @@ def ignore_pandas_nan_categorical_warning():
         yield
 
 
-_INDEXER_NAMES = [
-    '_' + name for (name, _) in pd.core.indexing.get_indexers_list()
-]
+# pd==.21.x enumarted list from pd.Index.get_indexers_list()
+# https://github.com/pandas-dev/pandas/blob/0.21.x/pandas/core/indexing.py#L29
+# in pd==1 now mixins. maybe do not have to remove these?
+_INDEXER_NAMES = ['_ix', '_iloc', '_loc', '_at', '_iat']
 
 
 def clear_dataframe_indexer_caches(df):

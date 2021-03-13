@@ -281,7 +281,7 @@ class DataPortal(object):
             prefetch_length=minute_history_prefetch_length,
         )
 
-        self._first_trading_day = first_trading_day
+        self._first_trading_day = str(first_trading_day.date())
 
         # Get the first trading minute
         self._first_trading_minute, _ = (
@@ -776,7 +776,7 @@ class DataPortal(object):
         start_loc = end_loc - bar_count + 1
         if start_loc < self._first_trading_day_loc:
             raise HistoryWindowStartsBeforeData(
-                first_trading_day=self._first_trading_day.date(),
+                first_trading_day=self._first_trading_day,
                 bar_count=bar_count,
                 suggested_start_day=tds[
                     self._first_trading_day_loc + bar_count
@@ -878,7 +878,7 @@ class DataPortal(object):
         )
 
         raise HistoryWindowStartsBeforeData(
-            first_trading_day=self._first_trading_day.date(),
+            first_trading_day=self._first_trading_day,
             bar_count=bar_count,
             suggested_start_day=suggested_start_day.date(),
         )
@@ -1218,20 +1218,21 @@ class DataPortal(object):
         end_dt = trading_days[-1].value / 1e9
 
         dividends = self._adjustment_reader.conn.execute(
-            "SELECT * FROM stock_dividend_payouts WHERE sid = ? AND "
+            "SELECT * "
+            "FROM stock_dividend_payouts WHERE sid = ? AND "
             "ex_date > ? AND pay_date < ?", (int(sid), start_dt, end_dt,)).\
             fetchall()
 
         dividend_info = []
         for dividend_tuple in dividends:
             dividend_info.append({
-                "declared_date": dividend_tuple[1],
-                "ex_date": pd.Timestamp(dividend_tuple[2], unit="s"),
-                "pay_date": pd.Timestamp(dividend_tuple[3], unit="s"),
-                "payment_sid": dividend_tuple[4],
-                "ratio": dividend_tuple[5],
+                "sid": dividend_tuple[1],
+                "payment_sid": dividend_tuple[2],
+                "ratio": dividend_tuple[3],
+                "declared_date": dividend_tuple[4],
+                "ex_date": pd.Timestamp(dividend_tuple[5], unit="s"),
                 "record_date": pd.Timestamp(dividend_tuple[6], unit="s"),
-                "sid": dividend_tuple[7]
+                "pay_date": pd.Timestamp(dividend_tuple[7], unit="s"),
             })
 
         return dividend_info

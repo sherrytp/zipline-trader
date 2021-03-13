@@ -730,6 +730,7 @@ class SimplePipelineEngine(PipelineEngine):
         for name, term in iteritems(graph.outputs):
             # Truncate off extra rows from outputs.
             out[name] = workspace[term][graph_extra_rows[term]:]
+
         return out
 
     def _to_narrow(self, terms, data, mask, dates, assets):
@@ -933,7 +934,7 @@ def _pipeline_output_index(dates, assets, mask):
     asset_labels = repeat_first_axis(arange(len(assets)), len(dates))[mask]
     return MultiIndex(
         levels=[dates, assets],
-        labels=[date_labels, asset_labels],
+        codes=[date_labels, asset_labels],
         # TODO: We should probably add names for these.
         names=[None, None],
         verify_integrity=False,

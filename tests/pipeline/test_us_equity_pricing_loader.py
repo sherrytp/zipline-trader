@@ -15,7 +15,7 @@
 """
 Tests for USEquityPricingLoader and related classes.
 """
-from nose_parameterized import parameterized
+from parameterized import parameterized
 from numpy import (
     arange,
     datetime64,
@@ -33,7 +33,7 @@ from pandas import (
     Int64Index,
     Timestamp,
 )
-from pandas.util.testing import assert_frame_equal
+from pandas.testing import assert_frame_equal
 from toolz.curried.operator import getitem
 
 from zipline.lib.adjustment import Float64Multiply
@@ -93,7 +93,7 @@ EQUITY_INFO = DataFrame(
     ],
     index=arange(1, 7),
     columns=['start_date', 'end_date'],
-).astype(datetime64)
+).astype('datetime64[ns]')
 EQUITY_INFO['symbol'] = [chr(ord('A') + n) for n in range(len(EQUITY_INFO))]
 EQUITY_INFO['exchange'] = 'TEST'
 
@@ -306,9 +306,10 @@ class USEquityPricingLoaderTestCase(WithAdjustmentReader,
         for table in SPLITS, MERGERS:
             for eff_date_secs, _, sid in table.itertuples(index=False):
                 eff_date = Timestamp(eff_date_secs, unit='s')
-                asset_start, asset_end = EQUITY_INFO.ix[
-                    sid, ['start_date', 'end_date']
-                ]
+
+                asset_start = EQUITY_INFO.loc[sid]['start_date']
+                asset_end = EQUITY_INFO.loc[sid]['end_date']
+
                 self.assertGreaterEqual(eff_date, asset_start)
                 self.assertLessEqual(eff_date, asset_end)
 

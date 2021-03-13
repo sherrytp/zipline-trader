@@ -1,5 +1,4 @@
 import os
-
 import yaml
 
 CONFIG_PATH = os.environ.get("ZIPLINE_TRADER_CONFIG")
@@ -9,49 +8,53 @@ if CONFIG_PATH:
 
 
 class AlpacaConfig:
-    if CONFIG_PATH:
+    if CONFIG_PATH and ZIPLINE_CONFIG.get("alpaca"):
         al = ZIPLINE_CONFIG["alpaca"]
+    else:
+        al = {}
 
     @property
     def key(self):
-        if CONFIG_PATH:
+        if CONFIG_PATH and self.al:
             return self.al["key_id"]
         else:
             return os.environ.get('APCA_API_KEY_ID')
 
     @property
     def secret(self):
-        if CONFIG_PATH:
+        if CONFIG_PATH and self.al:
             return self.al["secret"]
         else:
             return os.environ.get('APCA_API_SECRET_KEY')
 
     @property
     def base_url(self):
-        if CONFIG_PATH:
+        if CONFIG_PATH and self.al:
             return self.al["base_url"]
         else:
             return os.environ.get('APCA_API_BASE_URL')
 
     @property
     def universe(self):
-        if CONFIG_PATH:
+        if CONFIG_PATH and self.al:
             return self.al["universe"]
         else:
             return os.environ.get('ZT_UNIVERSE')
 
     @property
     def custom_asset_list(self):
-        if CONFIG_PATH:
-            return self.al["custom_asset_list"]
+        if CONFIG_PATH and self.al:
+            return self.al.get("custom_asset_list")
         else:
             return os.environ.get('ZT_CUSTOM_ASSET_LIST')
 
 
 
 class AlphaVantage:
-    if CONFIG_PATH:
+    if CONFIG_PATH and ZIPLINE_CONFIG.get("alpha-vantage"):
         av = ZIPLINE_CONFIG["alpha-vantage"]
+    else:
+        av = {}
 
     @property
     def sample_frequency(self):
@@ -113,8 +116,10 @@ class AlphaVantage:
 
 
 def get_binance_config():
-    if CONFIG_PATH:
+    if CONFIG_PATH and ZIPLINE_CONFIG.get("binance"):
         return ZIPLINE_CONFIG["binance"]
+    else:
+        return {}
 
 
 if __name__ == '__main__':

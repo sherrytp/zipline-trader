@@ -759,11 +759,7 @@ cdef class BarData:
                     df_dict = {field: df * adjs[field]
                                for field, df in iteritems(df_dict)}
 
-                # returned panel has:
-                # items: fields
-                # major axis: dt
-                # minor axis: assets
-                return pd.Panel(df_dict)
+                return pd.concat(df_dict, axis=1)
 
     property current_dt:
         def __get__(self):
