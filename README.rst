@@ -32,4 +32,4 @@ This project is meant to be used for backtesting/paper/live trading with one the
 
 Please `Read The Docs <https://zipline-trader.readthedocs.io/en/latest/index.html#>`_
 
-And you could find us on `slack <https://join.slack.com/t/zipline-live/shared_invite/zt-2eswh6cg-RkkAfook7cvREnQfit6qGA>`_
+And you could find us on `slack <https://join.slack.com/t/zipline-live/shared_invite/zt-mrsrfhky-usB0SEU4st1SuMUCErUevA>`_
